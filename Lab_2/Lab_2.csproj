@@ -57,6 +57,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Serilog.AspNetCore" Version="7.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Lab_2.Services\Lab_2.Services.csproj" />
   </ItemGroup>
 

@@ -1,4 +1,6 @@
 using Lab_2.Services.Services;
+using Serilog;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -8,6 +10,10 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddTransient<IEmailSender, EmailSender>();
 builder.Services.AddControllersWithViews();
+builder.Host.UseSerilog((context, configuration) => configuration.ReadFrom.Configuration(context.Configuration));
+builder.Services.AddEndpointsApiExplorer();
+
+
 
 var app = builder.Build();
 
@@ -23,10 +29,25 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-
-app.UseRouting();
+app.UseSerilogRequestLogging();
 
 app.UseAuthorization();
+app.Use((context, next) =>
+{
+    var request = context.Request;
+    var ipAddress = context.Connection.RemoteIpAddress;
+    var requestTime = DateTime.Now;
+
+    var logMessage = $"Request: {request.Scheme}://{request.Host}{request.Path}{request.QueryString}, " +
+                     $"Time: {requestTime}, " +
+                     $"IP: {ipAddress}";
+
+    // ЋогуЇмо дан≥ про запит
+    context.RequestServices.GetRequiredService<ILogger<Program>>().LogInformation(logMessage);
+
+    return next();
+});
+app.UseRouting();
 
 app.MapControllerRoute(
 	name: "default",
