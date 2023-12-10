@@ -1,0 +1,18 @@
+﻿@using Lab_2.Models.ViewModel
+@model NavbarViewModel
+
+<div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <div class="d-flex ml-auto flex-column flex-lg-row align-items-center">
+        <ul class="navbar-nav  ">
+            @foreach (var item in Model.MenuItems)
+            {
+                <li class="nav-item">
+                    <a class="nav-link" href="@item.Url">@Model.Localizer[item.Text]</a>
+                </li>
+            }
+            <div id="language-switcher">
+                @await Html.PartialAsync("_LanguageSwitcher")
+            </div>
+        </ul>
+    </div>
+</div>

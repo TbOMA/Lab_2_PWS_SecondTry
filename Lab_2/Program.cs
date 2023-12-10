@@ -1,4 +1,6 @@
 using Lab_2.Services.Services;
+using Lab_2.Views.Shared.Components.Navbar;
+
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc.Razor;
 using Serilog;
@@ -16,6 +18,9 @@ builder.Services.AddControllersWithViews();
 builder.Host.UseSerilog((context, configuration) => configuration.ReadFrom.Configuration(context.Configuration));
 builder.Services.AddEndpointsApiExplorer();
 
+builder.Services.AddControllersWithViews();
+builder.Services.AddRazorPages();
+builder.Services.AddScoped<NavbarViewComponent>();
 
 builder.Services.AddLocalization(options => options.ResourcesPath = "Resources");
 
