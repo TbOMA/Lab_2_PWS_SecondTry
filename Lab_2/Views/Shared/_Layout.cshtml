@@ -24,17 +24,11 @@
 </head>
 <body>
 
-    <div>
-        <nav>
-            <ul>
-                <li><a asp-controller="File" asp-action="Upload">Upload</a></li>
-            </ul>
-        </nav>
-    </div>
-
+   
     <div>
         @RenderBody()
     </div>
+   
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>

@@ -1,0 +1,10 @@
+﻿<ul>
+    @if (Model != null)
+    {
+        foreach (var file in Model)
+        {
+            var fileInfo = new FileInfo(file);
+            <li><a href="@Url.Action("View", "File", new { fileName = fileInfo.Name })">@fileInfo.Name</a></li>
+        }
+    }
+</ul>

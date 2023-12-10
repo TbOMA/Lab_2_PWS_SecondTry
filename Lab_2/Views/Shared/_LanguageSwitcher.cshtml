@@ -1,0 +1,15 @@
+﻿@using Microsoft.AspNetCore.Builder
+@using Microsoft.AspNetCore.Localization
+@{
+    var requestCulture = Context.Features.Get<IRequestCultureFeature>();
+    var returnUrl = Context.Request.Path + Context.Request.QueryString;
+}
+
+<form id="form-language" asp-controller="Home" asp-action="ChangeLanguage" asp-route-returnUrl="@returnUrl" method="post">
+    <select name="culture" onchange="document.getElementById('form-language').submit();">
+        <option value="en" selected="@(requestCulture.RequestCulture.Culture.Name == "en")">English</option>
+        <option value="uk" selected="@(requestCulture.RequestCulture.Culture.Name == "uk")">Українська</option>
+    </select>
+</form>
+
+

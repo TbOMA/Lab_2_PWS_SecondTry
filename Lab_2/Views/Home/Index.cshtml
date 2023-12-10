@@ -1,5 +1,8 @@
 ﻿@model Lab_2.Models.ContactFormModel
 
+@using Microsoft.Extensions.Localization
+@inject IStringLocalizer<Lab_2.Controllers.HomeController> Localizer
+
 <!DOCTYPE html>
 <html>
 
@@ -41,23 +44,26 @@
                         <div class="d-flex ml-auto flex-column flex-lg-row align-items-center">
                             <ul class="navbar-nav  ">
                                 <li class="nav-item active">
-                                    <a class="nav-link" href="index.html">Home <span class="sr-only">(current)</span></a>
+                                    <a class="nav-link" href="index.html">@Localizer["Home"] <span class="sr-only">(current)</span></a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="about.html"> About</a>
+                                    <a class="nav-link" href="about.html">@Localizer["About"]</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="service.html"> Services </a>
+                                    <a class="nav-link" href="service.html">@Localizer["Services"]</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="news.html"> News</a>
+                                    <a class="nav-link" href="news.html">@Localizer["News"]</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="contact.html">Contact Us</a>
+                                    <a class="nav-link" href="contact.html">@Localizer["Contact Us"]</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="#">Login</a>
+                                    <a class="nav-link" href="#">@Localizer["Login"]</a>
                                 </li>
+                                <div id="language-switcher">
+                                    @await Html.PartialAsync("_LanguageSwitcher")
+                                </div>
                             </ul>
                         </div>
                     </div>

@@ -1,5 +1,8 @@
 using Lab_2.Services.Services;
+using Microsoft.AspNetCore.Localization;
+using Microsoft.AspNetCore.Mvc.Razor;
 using Serilog;
+using System.Globalization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,6 +17,19 @@ builder.Host.UseSerilog((context, configuration) => configuration.ReadFrom.Confi
 builder.Services.AddEndpointsApiExplorer();
 
 
+builder.Services.AddLocalization(options => options.ResourcesPath = "Resources");
+
+builder.Services.AddMvc()
+    .AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix)
+    .AddDataAnnotationsLocalization();
+
+builder.Services.Configure<RequestLocalizationOptions>(options =>
+{
+    options.DefaultRequestCulture = new RequestCulture("en");
+
+    options.AddSupportedCultures("en", "uk");
+    options.AddSupportedUICultures("en", "uk");
+});
 
 var app = builder.Build();
 
@@ -48,6 +64,20 @@ app.Use((context, next) =>
     return next();
 });
 app.UseRouting();
+
+var supportedCultures = new[]
+{
+    new CultureInfo("en"),
+    new CultureInfo("uk")
+};
+
+app.UseRequestLocalization(new RequestLocalizationOptions
+{
+    DefaultRequestCulture = new RequestCulture("en"),
+    SupportedCultures = supportedCultures,
+    SupportedUICultures = supportedCultures
+});
+
 
 app.MapControllerRoute(
 	name: "default",

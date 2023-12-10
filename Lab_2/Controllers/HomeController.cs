@@ -6,18 +6,23 @@ using MimeKit;
 using MailKit.Net.Smtp;
 using System.Diagnostics;
 using Lab_2.Models;
+using Microsoft.AspNetCore.Localization;
+using Microsoft.Extensions.Localization;
 
-namespace WebApplication1.Controllers
+namespace Lab_2.Controllers
 {
 	public class HomeController : Controller
 	{
-		private readonly IEmailSender _emailSender;
+        private readonly IStringLocalizer<HomeController> _localizer;
+
+        private readonly IEmailSender _emailSender;
         private readonly ILogger<HomeController> _logger;
-        public HomeController(IEmailSender emailSender, ILogger<HomeController> logger)
+        public HomeController(IEmailSender emailSender, ILogger<HomeController> logger, IStringLocalizer<HomeController> localizer)
         {
             _emailSender = emailSender;
             _logger = logger;
             _logger.LogInformation("Logging get started!");
+            _localizer = localizer;
         }
 
         public async Task<IActionResult> Index()
@@ -51,7 +56,18 @@ namespace WebApplication1.Controllers
             return View(model);
         }
 
-        
+        [HttpPost]
+        public IActionResult ChangeLanguage(string culture, string returnUrl)
+        {
+            Response.Cookies.Append(
+                CookieRequestCultureProvider.DefaultCookieName,
+                CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(culture)),
+                new CookieOptions { Expires = DateTimeOffset.UtcNow.AddYears(1) }
+            );
+
+            return LocalRedirect(returnUrl);
+        }
+
         public IActionResult Privacy()
 		{
 			return View();
